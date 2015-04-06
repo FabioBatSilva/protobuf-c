@@ -345,6 +345,8 @@ struct ProtobufCMessageUnknownField;
 struct ProtobufCMethodDescriptor;
 struct ProtobufCService;
 struct ProtobufCServiceDescriptor;
+struct ProtobufCFileOptions;
+struct ProtobufCFileDescriptor;
 
 typedef struct ProtobufCAllocator ProtobufCAllocator;
 typedef struct ProtobufCBinaryData ProtobufCBinaryData;
@@ -361,6 +363,8 @@ typedef struct ProtobufCMessageUnknownField ProtobufCMessageUnknownField;
 typedef struct ProtobufCMethodDescriptor ProtobufCMethodDescriptor;
 typedef struct ProtobufCService ProtobufCService;
 typedef struct ProtobufCServiceDescriptor ProtobufCServiceDescriptor;
+typedef struct ProtobufCFileOptions ProtobufCFileOptions;
+typedef struct ProtobufCFileDescriptor ProtobufCFileDescriptor;
 
 /** Boolean type. */
 typedef int protobuf_c_boolean;
@@ -754,6 +758,40 @@ struct ProtobufCServiceDescriptor {
 	const ProtobufCMethodDescriptor	*methods;
 	/** Sort index of methods. */
 	const unsigned			*method_indices_by_name;
+};
+
+/**
+ * Options defined in a .proto file
+ */
+struct ProtobufCFileOptions {
+    /** Package name. */
+    const char                      *package;
+    /** Outer class name. */
+    const char                      *outer_classname;
+    /** Is this file deprecated? */
+    const protobuf_c_boolean        *deprecated;
+    /** Generate a separate file for each top-level message?*/
+    const protobuf_c_boolean        *multiple_files;
+};
+
+/**
+ * Describes a complete .proto file
+ */
+struct ProtobufCFileDescriptor {
+    /** file name. */
+    const char                          *name;
+    /** Package name. */
+    const char                          *package;
+    /** Names of files imported by this files. */
+    const char                          *dependencies;
+    /** file options defined in the .proto file. */
+    const ProtobufCFileOptions          *options;
+    /** Messages descriptors, in the order defined in the .proto file. */
+    const ProtobufCMessageDescriptor    *messages;
+    /** Enum descriptors, in the order defined in the .proto file. */
+    const ProtobufCEnumDescriptor       *enums;
+    /** Service descriptors, in the order defined in the .proto file. */
+    const ProtobufCServiceDescriptor    *services;
 };
 
 /**
