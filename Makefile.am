@@ -42,9 +42,12 @@ lib_LTLIBRARIES += \
 	protobuf-c/libprotobuf-c.la
 
 nobase_include_HEADERS += \
+	protobuf-c/parser.h \
 	protobuf-c/protobuf-c.h
 
 protobuf_c_libprotobuf_c_la_SOURCES = \
+	protobuf-c/parser.c \
+	protobuf-c/parser.h \
 	protobuf-c/protobuf-c.c \
 	protobuf-c/protobuf-c.h
 
