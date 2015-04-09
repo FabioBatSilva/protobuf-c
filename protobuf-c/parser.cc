@@ -45,9 +45,43 @@
 
 namespace c {
 
+using namespace google::protobuf;
+using namespace google::protobuf::io;
+using namespace google::protobuf::compiler;
+
+FileDescriptorProto parse_descriptor_from_file(const char* proto_filename, ProtobufCParserResult* result)
+{
+    FileDescriptorProto file_desc_proto;
+
+    FILE* proto_file = fopen(proto_filename, "r");
+    {
+        if (proto_file == NULL) {
+            result->error_message = "Cannot open .proto file";
+            return file_desc_proto;
+        }
+
+        FileInputStream proto_input_stream = fileno(proto_file);
+
+        Tokenizer tokenizer(&proto_input_stream, NULL);
+
+        Parser parser;
+
+        if (!parser.Parse(&tokenizer, file_desc_proto)) {
+            result->error_message = "Cannot parse .proto file";
+            return file_desc_proto;
+        }
+    }
+
+    fclose(proto_file);
+
+    if (!file_desc_proto->has_name()) {
+        //file_desc_proto->set_name(proto_filename);
+    }
+}
+
 extern ProtobufCParserResult *protobuf_c_parser_from_file(FILE *proto_file)
 {
-    //google::protobuf::FileDescriptorProto descriptor;
+    FileDescriptorProto descriptor;
     ProtobufCParserResult result;
 
     return NULL;
