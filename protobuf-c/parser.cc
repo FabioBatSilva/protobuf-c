@@ -32,28 +32,26 @@
  * Routines to parse text format protobufs.
  *
  * \author Fabio B. Silva <fabio.bat.silva@gmail.com>
- * \copyright 2008-2014. Licensed under the terms of the [BSD-2-Clause] license.
+ * \copyright 2008-2015. Licensed under the terms of the [BSD-2-Clause] license.
  */
 
+#include <stdio.h>
 #include <stdlib.h> /* for malloc, free */
 #include <string.h> /* for strcmp, strlen, memcpy, memmove, memset */
 
-#include "protobuf-c.h"
 #include "parser.h"
-
-
+#include <google/protobuf/descriptor.h>
 #include <google/protobuf/compiler/parser.h>
 
-namespace c
-{
+namespace c {
 
-extern ProtobufCFileDescriptor *protobuf_c_parser_from_file(FILE *proto_file)
+extern ProtobufCParserResult *protobuf_c_parser_from_file(FILE *proto_file)
 {
-    FileDescriptorProto descriptor;
+    //google::protobuf::FileDescriptorProto descriptor;
     ProtobufCParserResult result;
 
-    return result;
+    return NULL;
 }
 
 
-}
+}  // namespace c

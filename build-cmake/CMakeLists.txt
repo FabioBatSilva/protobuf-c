@@ -27,6 +27,8 @@ SET(TEST_DIR ${MAIN_DIR}/t)
 MESSAGE(${MAIN_DIR})
 
 SET (PC_SOURCES
+        ${MAIN_DIR}/protobuf-c/parser.c
+        ${MAIN_DIR}/protobuf-c/parser.h
         ${MAIN_DIR}/protobuf-c/protobuf-c.c
         ${MAIN_DIR}/protobuf-c/protobuf-c.h)
 
@@ -52,7 +54,7 @@ ADD_CUSTOM_COMMAND(OUTPUT t/test.pb-c.c t/test.pb-c.h
                    )
 
 
-ADD_EXECUTABLE(test-generated-code ${TEST_DIR}/generated-code/test-generated-code.c t/test.pb-c.c t/test.pb-c.h )
+ADD_EXECUTABLE(test-generated-code ${TEST_DIR}/parser/test-parser.c ${TEST_DIR}/generated-code/test-generated-code.c t/test.pb-c.c t/test.pb-c.h )
 TARGET_LINK_LIBRARIES(test-generated-code protobuf-c)
 
 
@@ -80,6 +82,9 @@ TARGET_LINK_LIBRARIES(test-generated-code2  protobuf-c)
 ADD_EXECUTABLE(test-version ${TEST_DIR}/version/version.c)
 TARGET_LINK_LIBRARIES(test-version protobuf-c)
 
+ADD_EXECUTABLE(test-parser ${TEST_DIR}/parser/test-parser.c)
+TARGET_LINK_LIBRARIES(test-parser protobuf-c)
+
 
 ENDIF()
 
@@ -93,6 +98,7 @@ SET(DART_TESTING_TIMEOUT 5)
 ADD_TEST(test-generated-code test-generated-code)
 ADD_TEST(test-generated-code2 test-generated-code2)
 ADD_TEST(test-version test-version)
+ADD_TEST(test-parser test-parser)
 
 
 INCLUDE(CPack)

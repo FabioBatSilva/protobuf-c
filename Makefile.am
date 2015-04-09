@@ -46,7 +46,7 @@ nobase_include_HEADERS += \
 	protobuf-c/protobuf-c.h
 
 protobuf_c_libprotobuf_c_la_SOURCES = \
-	protobuf-c/parser.c \
+	protobuf-c/parser.cc \
 	protobuf-c/parser.h \
 	protobuf-c/protobuf-c.c \
 	protobuf-c/protobuf-c.h
@@ -117,11 +117,13 @@ protoc_c_protoc_c_LDADD = \
 LOG_COMPILER = $(VALGRIND)
 
 check_PROGRAMS += \
+	t/parser/test-parser \
 	t/generated-code/test-generated-code \
 	t/generated-code2/test-generated-code2 \
 	t/version/version
 
 TESTS += \
+	t/parser/test-parser \
 	t/generated-code/test-generated-code \
 	t/generated-code2/test-generated-code2 \
 	t/version/version
@@ -130,6 +132,11 @@ t_generated_code_test_generated_code_SOURCES = \
 	t/generated-code/test-generated-code.c \
 	t/test.pb-c.c
 t_generated_code_test_generated_code_LDADD = \
+	protobuf-c/libprotobuf-c.la
+
+t_parser_test_parser_SOURCES = \
+	t/parser/test-parser.c
+t_parser_test_parser_LDADD = \
 	protobuf-c/libprotobuf-c.la
 
 t_generated_code2_test_generated_code2_SOURCES = \

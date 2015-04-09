@@ -32,20 +32,13 @@
  * Routines to parse text format protobufs.
  *
  * \author Fabio B. Silva <fabio.bat.silva@gmail.com>
- * \copyright 2008-2014. Licensed under the terms of the [BSD-2-Clause] license.
+ * \copyright 2008-2015. Licensed under the terms of the [BSD-2-Clause] license.
  */
 
 #ifndef PROTOBUF_C_PARSER_H
 #define PROTOBUF_C_PARSER_H
 
-#include <set>
-#include <map>
-#include <google/protobuf/compiler/parser.h>
-
-#include <stdio.h>
-#include <stdlib.h> /* for malloc, free */
-#include <string.h> /* for strcmp, strlen, memcpy, memmove, memset */
-
+#include "protobuf-c.h"
 
  /** Structure for parsing API.
  *
@@ -60,7 +53,7 @@ typedef struct _ProtobufCParserResult {
 /** Parse the entire proto \c FILE and construct a \c ProtobufCFileDescriptor representing it.
  *
  */
-extern ProtobufCFileDescriptor *protobuf_c_parser_from_file(FILE *proto_file);
+extern ProtobufCParserResult *protobuf_c_parser_from_file(FILE *proto_file);
 
 
 #endif /* PROTOBUF_C_PARSER_H */
