@@ -41,7 +41,10 @@
 
 #include "parser.h"
 #include <google/protobuf/descriptor.h>
+#include <google/protobuf/io/tokenizer.h>
+#include <google/protobuf/dynamic_message.h>
 #include <google/protobuf/compiler/parser.h>
+#include <google/protobuf/io/zero_copy_stream_impl.h>
 
 namespace c {
 
@@ -56,35 +59,63 @@ FileDescriptorProto parse_descriptor_from_file(const char* proto_filename, Proto
     FILE* proto_file = fopen(proto_filename, "r");
     {
         if (proto_file == NULL) {
-            result->error_message = "Cannot open .proto file";
+            string message = "Cannot open .proto file : %s";
+            int size       = (sizeof(message) + sizeof(proto_filename));
+
+            char error_message[size];
+
+            sprintf(error_message, message.c_str(), proto_filename);
+
+            //result->error = -1;
+            result->error_message = error_message;
+
             return file_desc_proto;
         }
 
-        FileInputStream proto_input_stream = fileno(proto_file);
+        FileInputStream proto_input_stream(fileno(proto_file));
 
         Tokenizer tokenizer(&proto_input_stream, NULL);
 
         Parser parser;
 
-        if (!parser.Parse(&tokenizer, file_desc_proto)) {
-            result->error_message = "Cannot parse .proto file";
+        if (!parser.Parse(&tokenizer, &file_desc_proto)) {
+            string message = "Cannot parse .proto file : %s";
+            int size       = (sizeof(message) + sizeof(proto_filename));
+
+            char error_message[size];
+
+            sprintf(error_message, message.c_str(), proto_filename);
+
+            //result->error = -2;
+            result->error_message = error_message;
+
             return file_desc_proto;
         }
     }
 
     fclose(proto_file);
 
-    if (!file_desc_proto->has_name()) {
-        //file_desc_proto->set_name(proto_filename);
+    if ( ! file_desc_proto.has_name()) {
+        file_desc_proto.set_name(proto_filename);
     }
+
+    return file_desc_proto;
 }
 
-extern ProtobufCParserResult *protobuf_c_parser_from_file(FILE *proto_file)
+ProtobufCMessageDescriptor to_message_descriptor(const char* proto_filename)
 {
-    FileDescriptorProto descriptor;
-    ProtobufCParserResult result;
 
-    return NULL;
+}
+
+extern ProtobufCParserResult protobuf_c_parser_from_file(const char* proto_filename)
+{
+    ProtobufCParserResult result;
+    FileDescriptorProto descriptor = parse_descriptor_from_file(proto_filename, &result);
+
+    printf("%s\n", result.error_message);
+    printf("%d\n", descriptor.message_type_size());
+
+    return result;
 }
 
 

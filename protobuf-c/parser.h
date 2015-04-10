@@ -53,7 +53,7 @@ typedef struct _ProtobufCParserResult {
 /** Parse the entire proto \c FILE and construct a \c ProtobufCFileDescriptor representing it.
  *
  */
-extern ProtobufCParserResult *protobuf_c_parser_from_file(FILE *proto_file);
+extern ProtobufCParserResult protobuf_c_parser_from_file(const char* proto_filename);
 
 
 #endif /* PROTOBUF_C_PARSER_H */
